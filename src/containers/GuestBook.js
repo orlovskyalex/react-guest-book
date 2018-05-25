@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { MessageList } from '../components/MessageList/MessageList';
 import { MessageForm } from '../components/MessageForm/MessageForm';
+import axios from 'axios';
+
+const API_URL = 'http://localhost:3100/api';
 
 export class GuestBook extends Component {
 
@@ -8,16 +11,34 @@ export class GuestBook extends Component {
 		super(props);
 
 		this.state = {
-			messageList: JSON.parse(localStorage.getItem('messageList')) || [],
+			messageList: [],
 		};
 	}
 
-	componentDidUpdate() {
-		localStorage.setItem('messageList', JSON.stringify(this.state.messageList));
+	componentDidMount() {
+		axios.get(`${API_URL}/message`)
+			.then(({ data }) => {
+				this.setState({ messageList: data });
+			})
+			.catch(err => {
+				console.error(err);
+			});
 	}
+
+	//componentDidUpdate() {
+	//	localStorage.setItem('messageList', JSON.stringify(this.state.messageList));
+	//}
 
 	handleMessageSubmit = (message) => {
 		this.setState({ messageList: [...this.state.messageList, message] });
+
+		axios.post(`${API_URL}/message`, message)
+			.then(({ data }) => {
+				this.setState({ messageList: data });
+			})
+			.catch(err => {
+				console.error(err);
+			});
 	};
 
 	onChangeScore = (messageId, score) => {
@@ -32,6 +53,14 @@ export class GuestBook extends Component {
 
 			return { messageList: newMessageList };
 		});
+
+		axios.patch(`${API_URL}/message/${messageId}`, { score })
+			.then(({ data }) => {
+				this.setState({ messageList: data });
+			})
+			.catch(err => {
+				console.error(err);
+			});
 	};
 
 	render() {
