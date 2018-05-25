@@ -8,8 +8,12 @@ export class GuestBook extends Component {
 		super(props);
 
 		this.state = {
-			messageList: [],
+			messageList: JSON.parse(localStorage.getItem('messageList')) || [],
 		};
+	}
+
+	componentDidUpdate() {
+		localStorage.setItem('messageList', JSON.stringify(this.state.messageList));
 	}
 
 	handleMessageSubmit = (message) => {
