@@ -16,13 +16,27 @@ export class GuestBook extends Component {
 		this.setState({ messageList: [...this.state.messageList, message] });
 	};
 
+	onChangeScore = (messageId, score) => {
+		this.setState((prevState) => {
+			const newMessageList = prevState.messageList.map(message => {
+				if (message.id === messageId) {
+					message.score = score;
+				}
+
+				return message;
+			});
+
+			return { messageList: newMessageList };
+		});
+	};
+
 	render() {
 		const { messageList } = this.state;
 
 		return (
 			<div className="container guest-book">
 				<MessageForm onMessageSubmit={this.handleMessageSubmit}/>
-				<MessageList list={messageList}/>
+				<MessageList list={messageList} onChangeScore={this.onChangeScore}/>
 			</div>
 		);
 	}

@@ -1,0 +1,13 @@
+.card + .card {
+	margin-top: 30px;
+}
+
+.avatar {
+	border-radius: 50%;
+	max-height: 30px;
+	max-width: 30px;
+}
+
+.name {
+	margin-left: 20px;
+}

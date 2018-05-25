@@ -10,7 +10,7 @@ export class MessageForm extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
+		this.baseState = {
 			message: {
 				name: '',
 				text: '',
@@ -18,7 +18,7 @@ export class MessageForm extends Component {
 			formValid: false,
 		};
 
-		this.defaultState = this.state;
+		this.state = Object.assign({}, this.baseState);
 	}
 
 	handleChange = (event) => {
@@ -40,12 +40,15 @@ export class MessageForm extends Component {
 		this.props.onMessageSubmit({
 			...this.state.message,
 			id: this._generateMessageId(),
+			score: 0,
 		});
 
-		this.setState(this.defaultState);
+		this.setState({ ...this.baseState });
 	};
 
 	render() {
+		const { message, formValid } = this.state;
+
 		return (
 			<div className="message-form p-2">
 				<h2>Leave your message</h2>
@@ -59,7 +62,9 @@ export class MessageForm extends Component {
 							className="form-control col-9"
 							name="name"
 							id="name"
+							value={message.name}
 							onChange={this.handleChange}
+							autoComplete="off"
 						/>
 					</div>
 					<div className="form-group row">
@@ -70,11 +75,13 @@ export class MessageForm extends Component {
 							className="form-control col-9"
 							name="text"
 							id="text"
+							value={message.text}
 							onChange={this.handleChange}
+							autoComplete="off"
 						/>
 					</div>
 					<div className="form-group">
-						<button className="btn btn-link" type="submit" disabled={!this.state.formValid}>
+						<button className="btn btn-link" type="submit" disabled={!formValid}>
 							Send message
 						</button>
 					</div>

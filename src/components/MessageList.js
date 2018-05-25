@@ -6,11 +6,12 @@ export class MessageList extends Component {
 
 	static propTypes = {
 		list: PropTypes.arrayOf(PropTypes.object).isRequired,
+		onChangeScore: PropTypes.func.isRequired,
 	};
 
-	constructor(props) {
-		super(props);
-	}
+	onChangeScore = (messageId, score) => {
+		this.props.onChangeScore(messageId, score);
+	};
 
 	renderMessages() {
 		const { list } = this.props;
@@ -19,8 +20,17 @@ export class MessageList extends Component {
 			return null;
 		}
 
-		return list.map(({ id, name, text }) => {
-			return <Message name={name} text={text} key={id}/>;
+		return list.map(({ id, name, text, score }) => {
+			return (
+				<Message
+					id={id}
+					name={name}
+					text={text}
+					score={score}
+					onChangeScore={this.onChangeScore}
+					key={id}
+				/>
+			);
 		});
 	}
 
