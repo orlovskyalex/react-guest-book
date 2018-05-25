@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { cloneDeep } from 'lodash';
 
 export class MessageForm extends Component {
 
@@ -10,7 +11,7 @@ export class MessageForm extends Component {
 	constructor(props) {
 		super(props);
 
-		this.baseState = {
+		this.defaultState = {
 			message: {
 				name: '',
 				text: '',
@@ -18,7 +19,7 @@ export class MessageForm extends Component {
 			formValid: false,
 		};
 
-		this.state = Object.assign({}, this.baseState);
+		this.state = cloneDeep(this.defaultState);
 	}
 
 	handleChange = (event) => {
@@ -43,7 +44,7 @@ export class MessageForm extends Component {
 			score: 0,
 		});
 
-		this.setState({ ...this.baseState });
+		this.setState(() => cloneDeep(this.defaultState));
 	};
 
 	render() {
