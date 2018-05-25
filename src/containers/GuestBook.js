@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MessageList } from '../components/MessageList';
-import { MessageForm } from '../components/MessageForm';
+import { MessageList } from '../components/MessageList/MessageList';
+import { MessageForm } from '../components/MessageForm/MessageForm';
 
 export class GuestBook extends Component {
 
